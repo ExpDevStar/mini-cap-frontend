@@ -48,15 +48,21 @@
   </div>
 </template>
 
-<style></style>
+<style>
+img {
+  width: 50%;
+}
+</style>
 
 <script>
+import axios from "axios";
+
 export default {
   data: function() {
     return {
       message: "Buy my stuff.",
       products: [],
-      currentProducts: {},
+      currentProduct: {},
       name: "",
       price: "",
       imageUrl: "",
@@ -71,13 +77,54 @@ export default {
   },
   methods: {
     createProduct: function() {
-      console.log("Create the recipe...");
+      console.log("Create the product...");
       var params = {
         name: this.name,
         price: this.price,
         image_url: this.image_url,
-        description: this.description,
+        description: this.description
       };
-  // } Closing method tag
+      axios
+        .post("/api/products", params)
+        .then(response => {
+          console.log("Success", response.data);
+          this.products.push(response.data);
+          this.name = "";
+          this.price = "";
+          this.imageUrl = "";
+          this.description = "";
+        })
+        .catch(error => console.log(error.response));
+    },
+    showProduct: function(inputProduct) {
+      if (this.currentProduct === inputProduct) {
+        this.currentProduct = {};
+      } else {
+        this.currentProduct = inputProduct;
+      }
+    },
+    updateProduct: function(inputProduct) {
+      var params = {
+        name: inputProduct.name,
+        price: inputProduct.price,
+        image_url: inputProduct.image_url,
+        description: inputProduct.description
+      };
+      axios.patch("/api/products/" + inputProduct.id, params).then(response => {
+        console.log("Update successful", response.data);
+        inputProduct.name = response.data.name;
+        inputProduct.price = response.data.price;
+        inputProduct.imageUrl = response.data.imageUrl;
+        inputProduct.description = response.data.description;
+      });
+    },
+    destroyProduct: function(inputProduct) {
+      axios.delete("/api/products/" + inputProduct.id).then(response => {
+        console.log("Delete successful", response.data);
+        var index = this.products.indexOf(inputProduct);
+        this.products.splice(index, 1);
+      });
+    }
+  } //Closing method tag
 };
 </script>
