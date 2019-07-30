@@ -51,13 +51,12 @@
 <style></style>
 
 <script>
-import axios from "axios";
 export default {
   data: function() {
     return {
-      message: "Welcome to Vue.js!",
+      message: "Buy my stuff.",
       products: [],
-      currentProduct: {},
+      currentProducts: {},
       name: "",
       price: "",
       imageUrl: "",
@@ -71,42 +70,14 @@ export default {
     });
   },
   methods: {
-    showProduct: function(inputProduct) {
-      if (this.currentProduct === inputProduct) {
-        this.currentProduct = {};
-      } else {
-        this.currentProduct = inputProduct;
-      }},
     createProduct: function() {
-      console.log("Create the product...");
+      console.log("Create the recipe...");
       var params = {
         name: this.name,
         price: this.price,
-        image_url: this.imageUrl,
-        description: this.description
-      }},
-      updateProduct: function(inputProduct) {
-      var params = {
-        name: inputProduct.name,
-        price: inputProduct.price,
-        image_url: inputProduct.image_url,
-        description: inputProduct.description,
-      }},
-      axios.post("/api/products", params).then(response => {
-        console.log("Great Success", response.data);
-        this.products.push(response.data);
-        this.name = "";
-        this.price = "";
-        this.imageUrl = "";
-        this.description = ""
-        });
-
-       axios.patch("/api/products/" + inputProduct.id, params).then(response => {
-        console.log("Update successful", response.data);
-        inputProduct.name = response.data.name;
-        inputProduct.price = response.data.price;
-        inputProduct.image_url = response.data.image_url;
-        inputProduct.description = response.data.description;
-      });
-     }
+        image_url: this.image_url,
+        description: this.description,
+      };
+  // } Closing method tag
+};
 </script>
