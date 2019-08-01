@@ -1,19 +1,15 @@
 <template>
   <div class="container new">
-    <h1>New Recipe</h1>
-    Title:
-    <input v-model="title" type="text" />
-    Chef:
-    <input v-model="chef" type="text" />
-    Prep time:
-    <input v-model="prepTime" type="text" />
-    Ingredients:
-    <input v-model="ingredients" type="text" />
-    Directions:
-    <input v-model="directions" type="text" />
-    Image url:
+    <h1>New Product</h1>
+    Name:
+    <input v-model="name" type="text" />
+    Price:
+    <input v-model="price" type="text" />
+    Image URL
     <input v-model="imageUrl" type="text" />
-    <button v-on:click="createRecipe()">Create</button>
+    Description
+    <input v-model="description" type="text" />
+    <button v-on:click="createProduct()">Create</button>
   </div>
 </template>
 
@@ -24,27 +20,23 @@ import axios from "axios";
 export default {
   data: function() {
     return {
-      title: "",
-      chef: "",
-      prepTime: "",
-      ingredients: "",
-      directions: "",
-      imageUrl: ""
+      name: "",
+      price: "",
+      imageUrl: "",
+      description: ""
     };
   },
   methods: {
-    createRecipe: function() {
-      console.log("Create the recipe...");
+    createProduct: function() {
+      console.log("Create the product...");
       var params = {
-        title: this.title,
-        chef: this.chef,
-        prep_time: this.prepTime,
-        ingredients: this.ingredients,
-        directions: this.directions,
-        image_url: this.imageUrl
+        name: this.name,
+        price: this.price,
+        imageUrl: this.imageUrl,
+        description: this.description
       };
       axios
-        .post("/api/recipes", params)
+        .post("/api/products", params)
         .then(response => {
           console.log("Success", response.data);
           this.$router.push("/");

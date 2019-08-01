@@ -3,7 +3,7 @@ import Router from "vue-router";
 import Home from "./views/Home.vue";
 import Test from "./views/Test.vue";
 import Signup from "./views/Signup.vue";
-import RecipesNew from "./views/ProductsNew.vue";
+import ProductsNew from "./views/ProductsNew.vue";
 import Login from "./views/Login.vue";
 import Logout from "./views/Logout.vue";
 Vue.use(Router);

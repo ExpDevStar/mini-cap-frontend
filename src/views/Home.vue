@@ -1,23 +1,5 @@
 <template>
   <div class="home">
-    <h1>New Product</h1>
-    <div>
-      Name:
-      <input v-model="name" type="text" />
-    </div>
-    <div>
-      Price:
-      <input v-model="price" type="number" />
-    </div>
-    <div>
-      Image URL:
-      <input v-model="imageUrl" type="text" />
-    </div>
-    <div>
-      Description:
-      <input v-model="description" type="text" />
-    </div>
-    <button v-on:click="createProduct()">Create</button>
     <h1>{{ message }}</h1>
     <div v-for="product in products">
       <h2>{{ product.name }}</h2>
