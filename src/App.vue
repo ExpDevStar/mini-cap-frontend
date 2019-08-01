@@ -9,6 +9,8 @@
       |
       <router-link to="/signup">Signup</router-link>
       |
+      <router-link to="/products/new">New Recipe</router-link>
+      |
       <router-link to="/login">Login</router-link>
       |
       <router-link to="/logout">Logout</router-link>

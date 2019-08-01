@@ -62,11 +62,7 @@ export default {
     return {
       message: "Buy my stuff.",
       products: [],
-      currentProduct: {},
-      name: "",
-      price: "",
-      imageUrl: "",
-      description: ""
+      currentProduct: {}
     };
   },
   created: function() {
