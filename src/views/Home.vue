@@ -1,30 +1,27 @@
 <template>
   <div class="home">
     <h1>{{ message }}</h1>
-    <div v-for="product in products">
-      <h2>{{ product.name }}</h2>
-      <img v-bind:src="product.image_url" alt="" />
-      <div>
-        <button v-on:click="showProduct(product)">More info</button>
-      </div>
-      <div v-if="product === currentProduct">
-        <p>Price: {{ product.price }}</p>
-        <p>Image: {{ product.image_url }}</p>
-        <p>Description: {{ product.description }}</p>
-        <h4>Edit Product</h4>
-        <div>
-          Name:
-          <input v-model="product.name" type="text" />
+    <p>Search</p>
+    <input v-model="searchFilter" type="text" list="names" />
+    <datalist id="names">
+      <option v-for="product in products">{{ product.name }}</option>
+    </datalist>
+    <button v-on:click="sortAttribute = 'name'" class="btn btn-primary">Sort by name</button>
+    <button v-on:click="sortAttribute = 'price'" class="btn btn-primary">Sort by price</button>
+    <div
+      is="transition-group"
+      class="row"
+      appear
+      enter-active-class="animated zoomInDown"
+      leave-active-class="animated fadeOut"
+    >
+      <div v-for="product in orderBy(filterBy(products, searchFilter, 'name'), sortAttribute)" v-bind:key="product.id">
+        <div class="card" v-bind:class="{ selected: product === currentProduct }" v-on:click="currentProduct = product">
+          <h2>{{ product.name }}</h2>
+          <img v-bind:src="product.image_url" alt="" />
+          <p>Name: {{ product.name }}</p>
+          <router-link v-bind:to="`/products/${product.id}`">More info</router-link>
         </div>
-        <div>
-          Price:
-          <input v-model="product.price" type="number" />
-        </div>
-        <div>
-          Image URL:
-          <input v-model="product.image_url" type="text" />
-        </div>
-        <button v-on:click="updateProduct(product)">Update</button>
       </div>
     </div>
   </div>
@@ -34,16 +31,25 @@
 img {
   width: 50%;
 }
+.selected {
+  color: white !important;
+  background-color: steelBlue;
+  transition: background-color 1s ease;
+}
 </style>
 
 <script>
 import axios from "axios";
+import Vue2Filters from "vue2-filters";
 
 export default {
+  mixins: [Vue2Filters.mixin],
   data: function() {
     return {
       message: "Buy my stuff.",
       products: [],
+      searchFilter: "",
+      sortAttribute: "name",
       currentProduct: {}
     };
   },
@@ -73,36 +79,7 @@ export default {
           this.description = "";
         })
         .catch(error => console.log(error.response));
-    },
-    showProduct: function(inputProduct) {
-      if (this.currentProduct === inputProduct) {
-        this.currentProduct = {};
-      } else {
-        this.currentProduct = inputProduct;
-      }
-    },
-    updateProduct: function(inputProduct) {
-      var params = {
-        name: inputProduct.name,
-        price: inputProduct.price,
-        image_url: inputProduct.image_url,
-        description: inputProduct.description
-      };
-      axios.patch("/api/products/" + inputProduct.id, params).then(response => {
-        console.log("Update successful", response.data);
-        inputProduct.name = response.data.name;
-        inputProduct.price = response.data.price;
-        inputProduct.imageUrl = response.data.imageUrl;
-        inputProduct.description = response.data.description;
-      });
-    },
-    destroyProduct: function(inputProduct) {
-      axios.delete("/api/products/" + inputProduct.id).then(response => {
-        console.log("Delete successful", response.data);
-        var index = this.products.indexOf(inputProduct);
-        this.products.splice(index, 1);
-      });
     }
-  } //Closing method tag
-};
+  }
+}; //Closing method tag
 </script>

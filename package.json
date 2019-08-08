@@ -10,7 +10,8 @@
     "axios": "^0.19.0",
     "core-js": "^2.6.5",
     "vue": "^2.6.10",
-    "vue-router": "^3.0.3"
+    "vue-router": "^3.0.3",
+    "vue2-filters": "^0.7.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.9.0",
